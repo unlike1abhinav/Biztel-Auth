@@ -1,2 +1,0 @@
-# Biztel-Auth
-Authentication Application
