@@ -1,0 +1,122 @@
+openapi: 3.0.0
+info:
+  title: BizIntel API
+  version: v1.0.0
+  description: API documentation for BizIntel
+servers:
+  - url: http://localhost:8080  # Replace with your server URL
+    description: Local development server
+security:
+  - basicScheme: []  # Applies basic auth globally
+paths:
+  /api/auth/signup:
+    post:
+      summary: Sign up a new user
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+      responses:
+        '200':
+          description: User signup successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiSuccess'
+        '400':
+          description: Bad Request. Possible errors- USERNAME_EXISTS, EMAIL_EXISTS, INVALID_INVITE, INVALID_REFERRER_UUID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error.  SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /api/auth/login:
+    post:
+      summary: Log in an existing user
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token for authentication
+                  username:
+                    type: string
+                    description: Logged-in username
+        '401':
+          description: Unauthorized. INVALID_USERNAME_OR_PASSWORD.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error. SERVER_ERROR.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+
+components:
+  schemas:
+    SignUpRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+          description: Password must be at least 8 characters long
+        inviteCode:
+          type: string
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    ApiError:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+    ApiSuccess:
+      type: object
+      properties:
+        message:
+          type: string
+          
+  securitySchemes:
+    basicScheme:
+      type: http
+      scheme: basic
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
