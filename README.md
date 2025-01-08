@@ -324,6 +324,56 @@ export default Login;
 ```
 ![App Screenshot](./screenshots/Login.png)
 
+## Error Component Setup
+
+src/components/Error.jsx
+
+```bash
+const Error = ({ message }) => {
+    return message ? <div style={{ color: "red", marginTop: "10px" }}>{message}</div> : null;
+  };
+  
+  export default Error;
+
+```
+## Frontend API Call Setup
+
+src/services/api.js
+
+In this we setup basic api call where we setup a basic url and then fetch the backend using axios library
+
+For installing axios
+
+```bash
+npm install axios
+```
+Calling Backedn API - 
+
+```bash
+import axios from "axios";
+
+const API_BASE_URL = "http://localhost:8080/api/auth";
+
+export const signup = async (data) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/signup`, data);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { errorMessage: "Unknown error occurred." };
+  }
+};
+
+export const login = async (data) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/login`, data);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { errorMessage: "Unknown error occurred." };
+  }
+};
+
+```
+
 
 
 
