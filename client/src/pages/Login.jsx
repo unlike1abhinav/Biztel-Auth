@@ -1,5 +1,5 @@
-import { Grid2, Typography } from "@mui/material";
-const Signup = () => {
+import { Typography, Grid2 } from "@mui/material";
+const Login = () => {
   return (
     <div>
       <Typography variant="h3" component="h2">
@@ -12,4 +12,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
