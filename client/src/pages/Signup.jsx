@@ -37,8 +37,8 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <Typography variant="h3" component="h2">
+    <div className="formDiv">
+      <Typography variant="h3" component="h2" gutterBottom>
         Sign Up
       </Typography>
       <form onSubmit={submitHandler}>
@@ -62,11 +62,11 @@ const Signup = () => {
               />
             </Grid2>
           ))}
-        </Grid2>
-        <Grid2 item xs={12}>
-          <Button variant="contained" color="primary" type="submit" fullWidth>
-            Sign Up
-          </Button>
+          <Grid2 item xs={12}>
+            <Button variant="contained" color="primary" type="submit" fullWidth>
+              Sign Up
+            </Button>
+          </Grid2>
         </Grid2>
         {error && <Error message={error} />}
         {success && <Typography color="green">{success}</Typography>}
