@@ -1,17 +1,16 @@
 # Biztel-Auth
+
 Authentication Application
 
 First setup basic frontend and backend
 
-## Frontend Setup 
+## Frontend Setup
 
 ```bash
 npm create vite@latest
 ```
-Then follow the instructions given in terminal 
 
-
-
+Then follow the instructions given in terminal
 
 ## Frontend Structure
 
@@ -30,11 +29,9 @@ src/
 ├── main.jsx
 ```
 
-
-
 ## Frontend Libraries
 
-Install the following libraries using npm i for the project setup 
+Install the following libraries using npm i for the project setup
 
 for routing
 
@@ -47,9 +44,10 @@ for styled components use material-ui
 ```bash
 npm install @mui/material @emotion/react @emotion/styled
 ```
+
 ## main.jsx setup
 
-Import react-router-dom and required pages for routing and create a proper routing 
+Import react-router-dom and required pages for routing and create a proper routing
 
 ```bash
 import { StrictMode } from "react";
@@ -87,6 +85,7 @@ createRoot(document.getElementById("root")).render(
   </StrictMode>
 );
 ```
+
 ## MainLayout
 
 /src/layouts/MainLayout.jsx
@@ -136,6 +135,7 @@ const Home = () => {
 
 export default Home;
 ```
+
 ![App Screenshot](./screenshots/Home.png)
 
 ## Signup Page Setup
@@ -228,6 +228,7 @@ const Signup = () => {
 
 export default Signup;
 ```
+
 ![App Screenshot](./screenshots/Signup.png)
 
 ## Login Page Setup
@@ -322,6 +323,7 @@ const Login = () => {
 export default Login;
 
 ```
+
 ![App Screenshot](./screenshots/Login.png)
 
 ## Error Component Setup
@@ -332,10 +334,11 @@ src/components/Error.jsx
 const Error = ({ message }) => {
     return message ? <div style={{ color: "red", marginTop: "10px" }}>{message}</div> : null;
   };
-  
+
   export default Error;
 
 ```
+
 ## Frontend API Call Setup
 
 src/services/api.js
@@ -347,7 +350,8 @@ For installing axios
 ```bash
 npm install axios
 ```
-Calling Backedn API - 
+
+Calling Backedn API -
 
 ```bash
 import axios from "axios";
@@ -374,6 +378,82 @@ export const login = async (data) => {
 
 ```
 
+## Basic Backend Setup
 
+```bash
 
+server/
+├── server.js
+```
 
+Installing libraries express, cors, body-parser, YAML, swagger-ui-express
+
+cors- for enabling cross server data transfer
+body parser - to parse the incoming json format data
+swagger-ui-express- for our yaml backend data file and setting up openAPI environment
+
+```bash
+
+npm install express cors body-parser YAML swagger-ui-express
+
+```
+Import all the required libraries in our code
+
+```bash
+
+import express from "express";
+import bodyParser from "body-parser";
+import {cors} from 'cors'
+import YAML from "yamljs";
+import { serve, setup } from "swagger-ui-express";
+```
+Setup these libraries to use the app properly
+
+```bash
+app.use(cors());
+app.use(bodyParser.json());
+
+const openApiDocument = YAML.load("./openapi_assignment.yaml");
+app.use("/api-docs", serve, setup(openApiDocument));
+```
+Setup of the basic api post call method to submit the signup data
+
+```bash
+
+app.post("/api/auth/signup", (req, res) => {
+  const { username, email, password, inviteCode } = req.body;
+
+  if (!username || !email || !password || !inviteCode) {
+    return res.status(400).json({ errorMessage: "All fields are required." });
+  }
+
+  if (users.some((user) => user.email === email)) {
+    return res.status(400).json({ errorMessage: "Email already exists." });
+  }
+
+  users.push({ username, email, password });
+  return res.status(200).json({ message: "Signup successful!" });
+});
+```
+
+Setup of the basic api post call method to submit the login data and find if the user is singup or not
+
+```bash
+
+app.post("/api/auth/login", (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ errorMessage: "Email and password are required." });
+  }
+
+  const user = users.find((user) => user.email === email && user.password === password);
+
+  if (!user) {
+    return res.status(401).json({ errorMessage: "Invalid credentials." });
+  }
+
+  const token = `fake-jwt-token-for-${user.username}`;
+  return res.status(200).json({ token, username: user.username });
+});
+```

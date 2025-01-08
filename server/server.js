@@ -1,8 +1,8 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const YAML = require("yamljs");
-const swaggerUi = require("swagger-ui-express");
+import express from "express";
+import bodyParser from "body-parser";
+import {cors} from 'cors'
+import YAML from "yamljs";
+import { serve, setup } from "swagger-ui-express";
 
 const app = express();
 const PORT = 8080;
@@ -11,7 +11,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const openApiDocument = YAML.load("./openapi_assignment.yaml");
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiDocument));
+app.use("/api-docs", serve, setup(openApiDocument));
 
 const users = [];
 
