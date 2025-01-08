@@ -1,10 +1,6 @@
 
-const Error = () => {
-  return (
-    <div>
-      Error
-    </div>
-  )
-}
-
-export default Error
+const Error = ({ message }) => {
+    return message ? <div style={{ color: "red", marginTop: "10px" }}>{message}</div> : null;
+  };
+  
+  export default Error;
