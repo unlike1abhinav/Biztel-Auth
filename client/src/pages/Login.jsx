@@ -34,7 +34,7 @@ const Login = () => {
         Login
       </Typography>
       <form onSubmit={submitHandler}>
-        <Grid2 >
+        <Grid2 container direction='column' spacing={{ xs: 2, md: 3 }} columnSpacing={{ xs: 1, sm: 2, md: 3 }} size="auto">
           <Grid2 item xs={12}>
             <TextField
               fullWidth

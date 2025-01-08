@@ -15,8 +15,8 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const changeHandler = (event) => {
-    setFormData(...formData, event.target.value);
+  const changeHandler = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const submitHandler = async (event) => {
@@ -42,7 +42,7 @@ const Signup = () => {
         Sign Up
       </Typography>
       <form onSubmit={submitHandler}>
-        <Grid2>
+        <Grid2 container direction='column' spacing={{ xs: 2, md: 3 }} columnSpacing={{ xs: 1, sm: 2, md: 3 }} size="auto">
           {[
             "username",
             "email",
