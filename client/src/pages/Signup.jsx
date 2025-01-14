@@ -15,8 +15,8 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const changeHandler = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const changeHandler = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   const submitHandler = async (event) => {
